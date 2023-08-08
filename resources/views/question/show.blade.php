@@ -12,8 +12,12 @@
                     </li>
                     <li><a href="{{ route('quiz.index') }}" style="text-decoration: none ;color:black">Quizz</a>
                     </li>
+                    <li><a href="{{ route('quiz.start') }}" style="text-decoration: none ;color:black"> Start Quizz</a>
+                    </li>
                 @else
                     <li>nothing</li>
+                    <li><a href="{{ route('quiz.start') }}" style="text-decoration: none ;color:black"> Start Quizz</a>
+                    </li>
                 @endif
 
             </ul>

@@ -5,7 +5,6 @@
         <div class="col-md-2">
             <h3>side bar </h3>
             <ul class="menu-content">
-
                 @if (auth()->check() && auth()->user()->is_admin)
                     <li><a href="" style="text-decoration: none ;color:black">User</a>
                     </li>
@@ -14,9 +13,14 @@
                     </li>
                     <li><a href="{{ route('quiz.index') }}" style="text-decoration: none ;color:black">Quizz</a>
                     </li>
+                    <li><a href="{{ route('quiz.start') }}" style="text-decoration: none ;color:black"> Start Quizz</a>
+                    </li>
                 @else
                     <li>nothing</li>
+                    <li><a href="{{ route('quiz.start') }}" style="text-decoration: none ;color:black"> Start Quizz</a>
+                    </li>
                 @endif
+
             </ul>
 
         </div>
@@ -55,7 +59,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Are you sure you want to delete this question?')">Delete</button>
+                                            onclick="return confirm('Are you sure you want to delete this Quizz?')">Delete</button>
                                     </form>
                                 </td>
                             </tr>

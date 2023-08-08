@@ -27,7 +27,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('question', QuestionController::class);
     Route::resource('quiz', QuizController::class);
-
+    Route::get('/start/quiz', [QuizController::class, 'startQuiz'])->name('quiz.start');
+    Route::get('/start/quiz{id}', [QuizController::class, 'Qstart'])->name('quiz.start.new');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

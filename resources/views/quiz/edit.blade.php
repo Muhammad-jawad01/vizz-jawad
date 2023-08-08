@@ -1,8 +1,9 @@
 @extends('layouts.app')
+
 @section('content')
     <div class="row m-0">
         <div class="col-md-2">
-            <h3>side bar </h3>
+            <h3>Side Bar</h3>
             <ul class="menu-content">
                 @if (auth()->check() && auth()->user()->is_admin)
                     <li><a href="" style="text-decoration: none ;color:black">User</a>
@@ -12,45 +13,77 @@
                     </li>
                     <li><a href="{{ route('quiz.index') }}" style="text-decoration: none ;color:black">Quizz</a>
                     </li>
+                    <li><a href="{{ route('quiz.start') }}" style="text-decoration: none ;color:black"> Start Quizz</a>
+                    </li>
                 @else
                     <li>nothing</li>
+                    <li><a href="{{ route('quiz.start') }}" style="text-decoration: none ;color:black"> Start Quizz</a>
+                    </li>
                 @endif
 
             </ul>
-
         </div>
 
         <div class="col-md-10">
             <div class="container">
-                <h1>Edit Question</h1>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-                <form action="{{ route('quiz.update', $question->id) }}" method="POST">
+                <h1>Edit Quiz</h1>
+
+                <form action="{{ route('quiz.update', $quiz->id) }}" method="POST">
                     @csrf
-                    @method('PUT')
+                    @method('PUT') <!-- Use the PUT method for updates -->
+
                     <div class="form-group">
-                        <label for="title">Question Title</label>
+                        <label for="title">Quiz Title</label>
                         <input type="text" name="title" id="title" class="form-control"
-                            value="{{ $question->title }}">
+                            value="{{ $quiz->title }}">
                     </div>
-                    <div class="form-group">
-                        <label for="options">Options</label>
 
-
-                        @foreach ($question->options as $index => $option)
-                            <input type="text" name="options[]" class="form-control" value="{{ $option->option }}">
-                            @if ($option->is_correct)
-                                <span class="badge badge-success">Correct</span>
-                            @else
-                                <span class="badge badge-danger">Incorrect</span>
-                            @endif
-                        @endforeach
-                        <!-- Add more input fields for additional options -->
-                    </div>
                     <div class="form-group">
-                        <label for="correct_option">Correct Option Index</label>
-                        <input type="number" name="correct_option" class="form-control" min="0" value="">
+                        <label for="marks">Marks</label>
+                        <input type="text" name="marks" id="marks" class="form-control"
+                            value="{{ $quiz->marks }}">
                     </div>
-                    <button type="submit" class="btn btn-primary">Update Question</button>
+
+                    <div class="form-group">
+                        <label for="duration">Duration</label>
+                        <input type="text" name="duration" id="duration" class="form-control"
+                            value="{{ $quiz->duration }}">
+                    </div>
+
+                    <table id="quiz" class="table table-hover" style="width: 100%; overflow: hidden;">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>ID</th>
+                                <th>Question</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($questions as $question)
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="selectedRows[]" value="{{ $question->id }}"
+                                            @if ($quiz->quizquestion->pluck('question_id')->contains($question->id)) checked @endif>
+                                    <td>{{ $question->id }}</td>
+                                    <td>{!! $question->title !!}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                    <div class="form-group">
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-4">Update Quiz</button>
                 </form>
             </div>
         </div>
